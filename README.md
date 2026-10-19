@@ -327,6 +327,10 @@ hvsnegi
 # word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
   year    = {2025}
 }
+
+!wget -O /content/tex-tar/folder/TexTAR-trained.pt \
+"https://huggingface.co/Tex-TAR/model_tex-tar/resolve/main/TexTAR-trained.pt"
+
 ```
 # Contact
 For any queries, please contact [Dr. Ravi Kiran Sarvadevabhatla](mailto:ravi.kiran@iiit.ac.in.)
