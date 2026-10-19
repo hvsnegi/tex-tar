@@ -6,7 +6,7 @@ from src.generate_data.organise import organize_images_by_number
 
 def main():
     #generate bboxes
-    config_path = "config/data_config.yaml"
+    config_path = "config/data_config_train.yaml"
     with open(config_path, 'r') as f:
         cfg = yaml.safe_load(f)
     
