@@ -1,7 +1,7 @@
 import yaml 
 from src.generate_data.generate_raw_json import DoctrProcessor
 from src.generate_data.contextwindow import ContextCropGenerator
-from src.generate_data.extract_cw import ContextCWExtractor
+from src.generate_data.extract_cw_val import ContextCWExtractor
 from src.generate_data.organise import organize_images_by_number
 
 def main():
