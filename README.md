@@ -299,8 +299,6 @@ After inference , the output will be a json file where it contains all the predi
 # crops_json:   &CROPS_JSON       "folder/inf/crops.json"
 # word_only:    &WORD_ONLY_DIR    "folder/inf/WORD_ONLY"
 # word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
-  year    = {2025}
-}
 
 !wget -O /content/tex-tar/folder/TexTAR-trained.pt \
 "https://huggingface.co/Tex-TAR/model_tex-tar/resolve/main/TexTAR-trained.pt"
@@ -332,6 +330,8 @@ Please use the following BibTeX entry for citation .
   author  = {Rohan Kumar and Jyothi Swaroopa Jinka and Ravi Kiran Sarvadevabhatla},
   booktitle = {International Conference on Document Analysis and Recognition,
             {ICDAR}},
+  year    = {2025}
+}
 
 ```
 # Contact
