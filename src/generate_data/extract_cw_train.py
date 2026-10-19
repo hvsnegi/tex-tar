@@ -75,7 +75,7 @@ class ContextCWExtractor:
 
 def main():
     # assume script is placed at project root or adjust path
-    config_path = os.path.join( 'config', 'data_config.yaml')
+    config_path = os.path.join( 'config', 'data_config_train.yaml')
     extractor = ContextCWExtractor(config_path)
     extractor.run()
 
