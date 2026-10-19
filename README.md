@@ -1,3 +1,46 @@
+<h2>Implementation for google colab</h2>
+<h3>!git clone https://github.com/hvsnegi/tex-tar.git</h3>
+<h3>%cd tex-tar</h3>
+<h3>!pip install -r requirements.txt</h3>
+<h3>!wget -O /content/tex-tar/folder/TexTAR-trained.pt "https://huggingface.co/Tex-TAR/model_tex-tar/resolve/main/TexTAR-trained.pt"</h3>
+<h2>for inference:</h2>
+<h3>(toggle skip_bounding_box_detection : true if accurate bbox coods are available, heavily struck-through words are missed by doctr ocr, fine-tuned version is not publically available)</h3>
+<h3>upload images to folder/inf/images and bbox.json to folder/inf</h3>
+{
+  "001.png": [
+    {
+      "bb_dim": [169, 83, 198, 99],
+      "bb_ids": [
+        {
+          "id": 0,
+          "ocrv": "FIG."
+        }
+      ]
+    },
+    {
+      "bb_dim": [198, 84, 216, 98],
+      "bb_ids": [
+        {
+          "id": 1,
+          "ocrv": "34"
+          }
+        }
+      ]
+    }
+    // … more word entries …
+  ]
+}
+<h3>!python data_pipeline_inf.py</h3>
+
+<h2>for training</h2>
+<h3>put images and labels in folder/train and folder/val </h3>
+there are two stages refer below
+
+<h2>notes:</h2>
+<h3>no context windows are generated if no. of words is less than seq. size </h3>
+  <h2>seq. size ∝ context</h2>
+  <h2>ResNet part scales linearly with sequence size but the transformers attentioon scales quadritically</h2>
+  <h2>released checkpoint was trained at 125</h2>
 <div align="center">
 
 <samp>
@@ -166,7 +209,7 @@ We employ a **two-stage** training strategy:
    ```  
 2. Launch training:
    ```bash
-   python3 main.py --mode train
+   python3 train.py
    ```
 
 #### Stage 2 – RoPE Fine-Tuning  
@@ -178,7 +221,7 @@ We employ a **two-stage** training strategy:
    ```  
 3. Fine-tune:
    ```bash
-   python3 main.py --train
+   python3 train.py
    ```
 
 ---
@@ -268,40 +311,6 @@ After inference , the output will be a json file where it contains all the predi
 </div>
 
 
-# hvsnegi
-
-
-# config/data_config_train.yaml
-
-# 1.for training run data_pipeline two times, once for train set context windows
-# input_images: &INPUT_IMAGES     "folder/train/images"
-# bbox_json:    &BBOX_JSON        "folder/train/bbox.json"
-# crops_json:   &CROPS_JSON       "folder/train/crops.json"
-# word_only:    &WORD_ONLY_DIR    "folder/train/WORD_ONLY"
-# word_cw:      &WORD_CW_DIR      "folder/train/WORD_CW"
-# and once for val set context windows(by making changes in data_config file) and put labels in respective folders
-# input_images: &INPUT_IMAGES     "folder/val/images"
-# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
-# crops_json:   &CROPS_JSON       "folder/val/crops.json"
-# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
-# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
-
-# 2. for testing upload to val/images and labels to val
-# input_images: &INPUT_IMAGES     "folder/val/images"
-# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
-# crops_json:   &CROPS_JSON       "folder/val/crops.json"
-# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
-# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
-
-# 3. for inference only bounding boxes are needed (toggle skip_bounding_box_detection : true if accurate bbox coods are available)
-# input_images: &INPUT_IMAGES     "folder/inf/images"
-# bbox_json:    &BBOX_JSON        "folder/inf/bbox.json"
-# crops_json:   &CROPS_JSON       "folder/inf/crops.json"
-# word_only:    &WORD_ONLY_DIR    "folder/inf/WORD_ONLY"
-# word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
-
-!wget -O /content/tex-tar/folder/TexTAR-trained.pt \
-"https://huggingface.co/Tex-TAR/model_tex-tar/resolve/main/TexTAR-trained.pt"
 
 
 # Download Dataset and Weights
