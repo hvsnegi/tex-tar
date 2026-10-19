@@ -43,10 +43,10 @@ class DoctrProcessor:
         for img_path in self.image_paths:
             if not os.path.isfile(img_path):
                 print(f"Warning: Image file not found: {img_path}. It will be skipped.", file=sys.stderr)
-        
+
 
     def _load_fine_tuned_model(self):
-       
+
         if self.pretrained_model_path and os.path.exists(self.pretrained_model_path):
             print(f"Loading fine-tuned model from: {self.pretrained_model_path}")
             state_dict = torch.load(self.pretrained_model_path, map_location=self.device)
@@ -95,7 +95,7 @@ class DoctrProcessor:
                 y0i = int(round(y0_rel * h))
                 x1i = int(round(x1_rel * w))
                 y1i = int(round(y1_rel * h))
-        
+
                 page_coords.append([x0i, y0i, x1i, y1i])
                 page_texts.append(word['value'])
             abs_coords.append(page_coords)
@@ -129,7 +129,7 @@ class DoctrProcessor:
                 texts, preds = self._get_doctr_predictions_for_image(valid)
                 for idx, img in enumerate(valid):
                     fname = os.path.basename(img)
-                    
+
                     entries = []
                     for i, box in enumerate(preds[idx]):
                         x0, y0, x1, y1 = box
@@ -139,10 +139,10 @@ class DoctrProcessor:
                                 'bb_ids': [{
                                     'id': bbox_counter,
                                     'ocrv': texts[idx][i],
-                                    'attb': {
-                                        'no_bi': True, 'bold': False, 'italic': False, 'b+i': False,
-                                        'no_us': True, 'underlined': False, 'strikeout': False, 'u+s': False
-                                    }
+                                    # 'attb': {
+                                    #     'no_bi': True, 'bold': False, 'italic': False, 'b+i': False,
+                                    #     'no_us': True, 'underlined': False, 'strikeout': False, 'u+s': False
+                                    # }
                                 }]
                             })
                             bbox_counter += 1
@@ -165,7 +165,7 @@ def main():
     config_path = "config/data_config.yaml"
     with open(config_path, 'r') as f:
         cfg = yaml.safe_load(f)
-    
+
     processor = DoctrProcessor(cfg)
     processor.process_images()
 
