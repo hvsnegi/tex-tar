@@ -1,4 +1,4 @@
-%%writefile /content/tex-tar/config/model_config.yaml
+
 
 #TWO STAGE TRAINING
 label_split: [4, 4]
