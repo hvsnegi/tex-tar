@@ -267,34 +267,8 @@ After inference , the output will be a json file where it contains all the predi
   />
 </div>
 
-# Download Dataset and Weights
 
-Model weights and the MMTAD testset can be downloaded from the [link](https://huggingface.co/Tex-TAR). To get access to the full dataset, please contact [Dr. Ravi Kiran Sarvadevabhatla](mailto:ravi.kiran@iiit.ac.in.)
-To fetch them via our script, simply run:
-
-```bash
-bash download_weights.sh
-```
-To load the dataset from huggingface, simply run 
-```bash
-pip install datasets
-from datasets import load_dataset
-
-ds = load_dataset("Tex-TAR/MMTAD")
-print(ds)
-```
-# Citation
-
-Please use the following BibTeX entry for citation .
-
-```bibtex
-@article{Kumar2025TexTAR,
-  title   = {TexTAR: Textual Attribute Recognition in Multi-domain and Multi-lingual Document Images},
-  author  = {Rohan Kumar and Jyothi Swaroopa Jinka and Ravi Kiran Sarvadevabhatla},
-  booktitle = {International Conference on Document Analysis and Recognition,
-            {ICDAR}},
-
-hvsnegi
+# hvsnegi
 
 
 # config/data_config_train.yaml
@@ -330,6 +304,34 @@ hvsnegi
 
 !wget -O /content/tex-tar/folder/TexTAR-trained.pt \
 "https://huggingface.co/Tex-TAR/model_tex-tar/resolve/main/TexTAR-trained.pt"
+
+
+# Download Dataset and Weights
+
+Model weights and the MMTAD testset can be downloaded from the [link](https://huggingface.co/Tex-TAR). To get access to the full dataset, please contact [Dr. Ravi Kiran Sarvadevabhatla](mailto:ravi.kiran@iiit.ac.in.)
+To fetch them via our script, simply run:
+
+```bash
+bash download_weights.sh
+```
+To load the dataset from huggingface, simply run 
+```bash
+pip install datasets
+from datasets import load_dataset
+
+ds = load_dataset("Tex-TAR/MMTAD")
+print(ds)
+```
+# Citation
+
+Please use the following BibTeX entry for citation .
+
+```bibtex
+@article{Kumar2025TexTAR,
+  title   = {TexTAR: Textual Attribute Recognition in Multi-domain and Multi-lingual Document Images},
+  author  = {Rohan Kumar and Jyothi Swaroopa Jinka and Ravi Kiran Sarvadevabhatla},
+  booktitle = {International Conference on Document Analysis and Recognition,
+            {ICDAR}},
 
 ```
 # Contact
