@@ -13,6 +13,8 @@ generate_json:
   image_folder:        *INPUT_IMAGES
   output_json:         *BBOX_JSON
   load_fine_tune_model: false
+  
+  #fine-tuned doctr model not made available by the authors(capable of getting bbox coods for heavily struck-out words)
   pretrained_model_path: "test/db_resnet50.pt"
   device:              "cuda"
   extensions:
