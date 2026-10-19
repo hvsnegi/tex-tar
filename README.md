@@ -293,6 +293,38 @@ Please use the following BibTeX entry for citation .
   author  = {Rohan Kumar and Jyothi Swaroopa Jinka and Ravi Kiran Sarvadevabhatla},
   booktitle = {International Conference on Document Analysis and Recognition,
             {ICDAR}},
+
+hvsnegi
+
+
+# config/data_config_train.yaml
+
+# 1.for training run data_pipeline two times, once for train set context windows
+# input_images: &INPUT_IMAGES     "folder/train/images"
+# bbox_json:    &BBOX_JSON        "folder/train/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/train/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/train/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/train/WORD_CW"
+# and once for val set context windows(by making changes in data_config file) and put labels in respective folders
+# input_images: &INPUT_IMAGES     "folder/val/images"
+# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/val/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
+
+# 2. for testing upload to val/images and labels to val
+# input_images: &INPUT_IMAGES     "folder/val/images"
+# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/val/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
+
+# 3. for inference only bounding boxes are needed (toggle skip_bounding_box_detection : true if accurate bbox coods are available)
+# input_images: &INPUT_IMAGES     "folder/inf/images"
+# bbox_json:    &BBOX_JSON        "folder/inf/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/inf/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/inf/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
   year    = {2025}
 }
 ```
