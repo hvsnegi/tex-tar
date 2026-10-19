@@ -1,17 +1,46 @@
 # config/data_config.yaml
+
+# 1.for training run data_pipeline two times, once for train set context windows
+# input_images: &INPUT_IMAGES     "folder/train/images"
+# bbox_json:    &BBOX_JSON        "folder/train/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/train/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/train/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/train/WORD_CW"
+# and once for val set context windows(by making changes in data_config file) and put labels in respective folders
+# input_images: &INPUT_IMAGES     "folder/val/images"
+# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/val/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
+
+# 2. for testing upload to val/images and labels to val
+# input_images: &INPUT_IMAGES     "folder/val/images"
+# bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/val/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
+
+# 3. for inference only bounding boxes are needed (toggle skip_bounding_box_detection : true if accurate bbox coods are available)
+# input_images: &INPUT_IMAGES     "folder/inf/images"
+# bbox_json:    &BBOX_JSON        "folder/inf/bbox.json"
+# crops_json:   &CROPS_JSON       "folder/inf/crops.json"
+# word_only:    &WORD_ONLY_DIR    "folder/inf/WORD_ONLY"
+# word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
+
 skip_bounding_box_detection: true
 
-input_images: &INPUT_IMAGES     "/ssd_scratch/rohan.kumar/swaroopajinka/corpus_augmented_decreased_underlines/test/images2"
-bbox_json:    &BBOX_JSON        "/ssd_scratch/rohan.kumar/swaroopajinka/corpus_augmented_decreased_underlines/test/labels/test_augmented_2--NAME--ORIGNAL.json"
-crops_json:   &CROPS_JSON       "/ssd_scratch/rohan.kumar/swaroopajinka/TEST_SET_TexTAR/test_crops.json"
-word_only:    &WORD_ONLY_DIR    "/ssd_scratch/rohan.kumar/swaroopajinka/TEST_SET_TexTAR/WORD_ONY_TRAIN"
-word_cw:      &WORD_CW_DIR      "/ssd_scratch/rohan.kumar/swaroopajinka/TEST_SET_TexTAR/WORD_CW_TRAIN"
+input_images: &INPUT_IMAGES     "folder/inf/images"
+bbox_json:    &BBOX_JSON        "folder/inf/bbox.json"
+crops_json:   &CROPS_JSON       "folder/inf/crops.json"
+word_only:    &WORD_ONLY_DIR    "folder/inf/WORD_ONLY"
+word_cw:      &WORD_CW_DIR      "folder/inf/WORD_CW"
 
 generate_json:
   image_folder:        *INPUT_IMAGES
   output_json:         *BBOX_JSON
-  load_fine_tune_model: true
-  pretrained_model_path: "/ssd_scratch/rohan.kumar/db_resnet50.pt"
+  load_fine_tune_model: false
+  #fine-tuned doctr model not made available by the authors(capable of getting bbox coods for heavily struck-out words)
+  pretrained_model_path: "folder/db_resnet50.pt"
   device:              "cuda"
   extensions:
     - ".png"
