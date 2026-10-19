@@ -1,0 +1,50 @@
+# config/data_config_val.yaml
+
+skip_bounding_box_detection: true
+
+input_images: &INPUT_IMAGES     "folder/val/images"
+bbox_json:    &BBOX_JSON        "folder/val/bbox.json"
+crops_json:   &CROPS_JSON       "folder/val/crops.json"
+word_only:    &WORD_ONLY_DIR    "folder/val/WORD_ONLY"
+word_cw:      &WORD_CW_DIR      "folder/val/WORD_CW"
+
+generate_json:
+  image_folder:        *INPUT_IMAGES
+  output_json:         *BBOX_JSON
+  load_fine_tune_model: false
+  pretrained_model_path: "test/db_resnet50.pt"
+  device:              "cuda"
+  extensions:
+    - ".png"
+    - ".jpg"
+    - ".jpeg"
+    - ".tiff"
+    - ".bmp"
+
+context_crop:
+  image_folder:        *INPUT_IMAGES
+  bbjson:              *BBOX_JSON
+  output_file_path:    *CROPS_JSON
+  enable_random:       0
+  seq_size:            125
+  type:                "word"
+  pad:                 "y"
+  aspect_ratio:        1.3334
+
+extract_cw:
+  image_folder:           *INPUT_IMAGES
+  bbox_json_path:         *BBOX_JSON
+  cw_json_path:           *CROPS_JSON
+  output_word_crops_path: *WORD_ONLY_DIR
+  pad_cropped_frame:      "y"
+  context_window_type:    "word CW"
+  sequence_size:          125
+  aspect_ratio:           1.3334
+  word_bbox_padding_offset: 0.1
+  extract_attributes:
+    T1: true
+    T2: true
+
+organize:
+  source_folder: *WORD_ONLY_DIR
+  dest_folder:   *WORD_CW_DIR
