@@ -293,8 +293,105 @@ def extract_cw(page_image,image_path,bbjson,cw_json,extract_dict,params,args,cw_
         assert num_crops_in_a_window==125
         
         print("Num writes",num_writes)
-        # return -1
-        
+        # return -1  
+    
     context_window_offset+=len(cw_json[key])
     
+    return context_window_offset
+
+
+def extract_cw_inf(page_image,image_path,bbjson,cw_json,extract_dict,params,args,cw_offset):
+    key = image_path.split('/')[-1]
+    image_path = image_path.split('/')[-1]
+    
+    # print(image_path)
+    context_window_offset = cw_offset
+    prev_id = context_window_offset-1
+    for cwi in range(len(cw_json[key])):
+        # print(cwi)
+        context_window = cw_json[key][cwi]
+        # assert len(context_window)==100
+        
+        # print(len(context_window))
+        cwid = cwi+context_window_offset
+        error=0
+        
+        # print(cwid,prev_id)
+        assert cwid == prev_id+1
+        
+        num_writes=0
+        num_crops_in_a_window = 0
+        for idx,bbid in enumerate(context_window):
+            dim = bbjson[key][int(bbid)]["bb_dim"]
+            dimensions_set = []
+            """
+            ADD PADDING at the bottom to cater to underline
+            """
+            if args.pad=='n':
+                extended_dim3 = dim[3]
+            else:
+                extended_dim3 = dim[3]+math.ceil(params["offset"]*abs(dim[3]-dim[1]))
+            crops= n_get_blocks(page_image[dim[1]:extended_dim3,dim[0]:dim[2]],-1,dimensions_set,original_dim=[dim[0],dim[1],dim[2],extended_dim3],args=args)
+            # print(len(crops))
+            try:
+                #print(len(crops),context_windo[bbid])
+                assert len(crops)==context_window[bbid]
+                num_crops_in_a_window+=len(crops)
+            except:
+                #print(len(crops),context_window[bbid])
+                crops = crops[:context_window[bbid]]
+                num_crops_in_a_window+=len(crops)
+                error+=1
+                
+            bbid = int(bbid)
+            for ind,crop in enumerate(crops):
+                build_name="0-0-"
+                # build_name = ""
+                # for k in extract_dict:
+                #     if(k=="T1" and extract_dict[k]==True):
+                #         # print("hello")
+                #         #print(bbjson[key][bbid])
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["b+i"]==True:
+                #             build_name+="3-"
+                #             # cv2.imwrite(f'{extract_dict["T1"]}/3_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["bold"]==True:
+                #             build_name+="1-"
+                #             # cv2.imwrite(f'{extract_dict["T1"]}/1_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["italic"]==True:
+                #             build_name+="2-"
+                #             # cv2.imwrite(f'{extract_dict["T1"]}/2_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["no_bi"]==True:
+                #             build_name+="0-"
+                #             # cv2.imwrite(f'{extract_dict["T1"]}/0_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         # print(build_name)
+
+                #     elif(k=="T2" and extract_dict[k]==True):
+                #         # print("hello")
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["u+s"]==True:
+                #             build_name+="3-"
+                #             # cv2.imwrite('{extract_dict["T2"]}/3_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["underlined"]==True:
+                #             build_name+="1-"
+                #             # cv2.imwrite(f'{extract_dict["T2"]}/1_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["strikeout"]==True:
+                #             build_name+="2-"
+                #             # cv2.imwrite(f'{extract_dict["T2"]}/2_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #         if bbjson[key][bbid]["bb_ids"][0]["attb"]["no_us"]==True:
+                #             build_name+="0-"
+                #             # cv2.imwrite(f'{extract_dict["T2"]}/0_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+                #     else:
+                #         continue
+
+                num_writes+=1
+                cv2.imwrite(f'{params["path"]}/{build_name[:-1]}_{image_path}_{bbid}_CW_{cwid}_{ind}.png',crop)
+        prev_id=cwid
+        #print(error)
+        assert error<=1
+        assert num_crops_in_a_window==125
+
+        print("Num writes",num_writes)
+        # return -1
+
+    context_window_offset+=len(cw_json[key])
+
     return context_window_offset
