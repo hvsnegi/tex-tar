@@ -23,11 +23,10 @@
         {
           "id": 1,
           "ocrv": "34"
-          }
-        }
+          }   
       ]
     }
-    // … more word entries …
+            // … more word entries …
   ]
 }
 <h3>!python data_pipeline_inf.py</h3>
